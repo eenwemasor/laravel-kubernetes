@@ -25,4 +25,12 @@ class LoginWithGoogleRequest extends FormRequest
             'token' => ['required', 'string']
         ];
     }
+
+    public function messages()
+    {
+        return [
+            'token.required'    => 'Token is required',
+            'token.string'      => 'Token is invalid'
+        ];
+    }
 }

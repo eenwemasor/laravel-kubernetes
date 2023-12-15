@@ -84,7 +84,7 @@ class AuthController extends Controller
 
         $token = $user->createToken($this->tokenName)->accessToken;
 
-        return Responser::send(StatusCode::CREATED, [
+        return Responser::send(StatusCode::OK, [
             'user' => $user,
             'token' => $token
         ], "Login successful.");
