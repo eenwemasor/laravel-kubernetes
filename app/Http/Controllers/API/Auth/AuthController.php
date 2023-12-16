@@ -78,7 +78,7 @@ class AuthController extends Controller
                 'email' => $googleData->email,
                 'avatar' => $googleData->avatar,
                 'google_access_token' => $request->input('token'),
-                'google_id' => $request->input('token')
+                'google_id' => $googleData->id
             ]);
         }
 

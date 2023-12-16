@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\API\Auth\AuthController;
+use App\Http\Controllers\API\User\UserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -21,4 +22,8 @@ Route::group(['prefix' => 'auth'], function () {
     Route::post('/login', [AuthController::class, 'login']);
     Route::post('/register', [AuthController::class, 'register']);
     Route::post('/login/google', [AuthController::class, 'loginWithGoogle']);
+});
+
+Route::group(['prefix' => 'user', 'middleware' => 'auth:api'], function () {
+    Route::get('/me', [UserController::class, 'me']);
 });
