@@ -16,7 +16,6 @@ class UserController extends Controller
      */
     function me(Request $request)
     {
-        sleep(2);
         return Responser::send(StatusCode::OK, $request->user(), "User details fetched successfully");
     }
 }
