@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\API\Auth\AuthController;
+use App\Http\Controllers\API\File\FileController;
 use App\Http\Controllers\API\Product\ProductController;
 use App\Http\Controllers\API\User\UserController;
 use Illuminate\Support\Facades\Route;
@@ -31,4 +32,10 @@ Route::group(['prefix' => 'user', 'middleware' => 'auth:api'], function () {
 
 Route::group(['prefix' => 'products'], function () {
     Route::get('/', [ProductController::class, 'index']);
+});
+
+
+Route::group(['prefix' => 'file'], function () {
+    Route::get('/', [FileController::class, 'index']);
+    Route::post('/upload', [FileController::class, 'upload']);
 });
