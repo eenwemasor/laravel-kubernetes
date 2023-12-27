@@ -11,12 +11,24 @@ use Illuminate\Support\Str;
 class Product extends Model
 {
     use HasFactory, HasUuids;
+
+    protected $casts = [
+        'settings'  => 'json',
+        'active'    => 'boolean'
+    ];
+
     protected $appends = [
         'slug'
     ];
 
-    public function getSlugAttribute(){
-        return Str::lower(str_replace(' ', '-', $this->name));
+    public function getSlugAttribute()
+    {
+        $slug = str_replace(',', '-', $this->name);
+        $slug = str_replace('”', '-', $slug);
+        $slug = str_replace(' ', '-', $slug);
+        $slug = str_replace('.', '-', $slug);
+
+        return Str::lower($slug);
     }
 
     public function files(): HasMany

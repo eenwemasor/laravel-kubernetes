@@ -19,7 +19,7 @@ class ProductController extends Controller
     function index(Request $request)
     {
         $category = ProductCategory::get();
-        $products = Product::with(['files'])->get();
+        $products = Product::with(['files'])->where('active', true)->get();
 
         return Responser::send(StatusCode::OK, [
             "products" => $products,

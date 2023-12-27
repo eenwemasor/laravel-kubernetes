@@ -15,8 +15,11 @@ return new class extends Migration
             $table->uuid('id')->primary();
             $table->uuid('category_id');
             $table->string('name');
+            $table->boolean('active');
+            $table->text('short_description');
             $table->longText('description');
             $table->string('unit_price');
+            $table->longText('settings');
             $table->string('icon')->nullable();
             $table->timestamps();
         });
