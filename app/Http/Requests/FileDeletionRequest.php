@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class FileUploadRequest extends FormRequest
+class FileDeletionRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,9 +22,9 @@ class FileUploadRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'files'         => ['required', 'array'],
-            'files.*'       => ['required', 'file', 'max:10240'],
-            'folder'        => ['sometimes', 'string'],
+            'fileIds'           => ['required', 'array'],
+            'fileIds.*'         => ['required', 'string'],
+            'folder'            => ['sometimes', 'string'],
         ];
     }
 
@@ -34,11 +34,10 @@ class FileUploadRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'files.required'        => "Files is required",
-            'files.array'           => "Files is invalid",
-            'files.*.required'      => "Files cannot be empty.",
-            'files.*.file'      => "File must be a valid file",
-            'files.*.max'           => "File size cannot larger than 10MB",
+            'fileIds.required'          => "File Ids is required",
+            'fileIds.array'             => "File Ids is invalid",
+            'fileIds.*.required'        => "File Ids cannot be empty.",
+            'fileIds.*.string'          => "File Id is invalid"
         ];
     }
 }

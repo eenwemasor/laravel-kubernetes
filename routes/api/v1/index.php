@@ -38,4 +38,5 @@ Route::group(['prefix' => 'products'], function () {
 Route::group(['prefix' => 'file'], function () {
     Route::get('/', [FileController::class, 'index']);
     Route::post('/upload', [FileController::class, 'upload']);
+    Route::post('/delete', [FileController::class, 'delete']);
 });

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API\File;
 
 use App\Enums\StatusCode;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\FileDeletionRequest;
 use App\Http\Requests\FileUploadRequest;
 use App\Http\Responser;
 use App\Services\FileService;
@@ -28,7 +29,7 @@ class FileController extends Controller
     }
 
     /**
-     * @param Request $request
+     * @param FileUploadRequest $request
      * 
      * @return Responser
      */
@@ -40,5 +41,20 @@ class FileController extends Controller
         $fileUrls = $this->fileService->store($files, $folder ?? 'uploads');
 
         return Responser::send(StatusCode::OK, $fileUrls, "File uploaded successfully");
+    }
+
+    /**
+     * @param FileDeletionRequest $request
+     * 
+     * @return Responser
+     */
+    function delete(FileDeletionRequest $request)
+    {
+        $folder = $request->validated('folder');
+        $fileIds = $request->validated('fileIds');
+
+        $fileUrls = $this->fileService->delete($fileIds, $folder ?? 'uploads');
+
+        return Responser::send(StatusCode::OK, $fileUrls, "File deleted successfully");
     }
 }
