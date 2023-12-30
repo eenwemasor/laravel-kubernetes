@@ -58,11 +58,17 @@ class FileService
         return $deletedFiles->toArray();
     }
 
+    /**
+     * @param mixed $fileId
+     * @param string $folder
+     * 
+     * @return mixed
+     */
     public function deleteFile($fileId, string $folder){
         $file = File::find($fileId);
 
         if($file){
-            return Storage::disk('s3')->delete($file->path);
+            return Storage::disk($file->disk)->delete($file->path);
         }
     }
 
@@ -76,7 +82,7 @@ class FileService
     {
         $uploadFile =  null;
 
-        if (!App::environment('local')) {
+        if (App::environment('local')) {
             $path = $file->store($folder, 'public');
             $uploadFile = $this->saveUploadFile('public', $path, $folder);
         } else {

@@ -53,8 +53,8 @@ class FileController extends Controller
         $folder = $request->validated('folder');
         $fileIds = $request->validated('fileIds');
 
-        $fileUrls = $this->fileService->delete($fileIds, $folder ?? 'uploads');
+        $deletedFiles = $this->fileService->delete($fileIds, $folder ?? 'uploads');
 
-        return Responser::send(StatusCode::OK, $fileUrls, "File deleted successfully");
+        return Responser::send(StatusCode::OK, $deletedFiles, "File deleted successfully");
     }
 }
