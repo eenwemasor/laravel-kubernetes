@@ -19,7 +19,7 @@ return new class extends Migration
             $table->text('path');
             $table->string('extension');
             $table->string('mime');
-            $table->float('size');
+            $table->string('size');
             $table->string('size_in_human_readable');
             $table->string('folder');
             $table->timestamps();

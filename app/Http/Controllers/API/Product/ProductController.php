@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Responser;
 use App\Models\Product;
 use App\Models\ProductCategory;
+use App\Models\ShippingCost;
 use Illuminate\Http\Request;
 
 class ProductController extends Controller
@@ -20,10 +21,12 @@ class ProductController extends Controller
     {
         $category = ProductCategory::get();
         $products = Product::with(['files'])->where('active', true)->get();
+        $stateShippingCosts = ShippingCost::get();
 
         return Responser::send(StatusCode::OK, [
             "products" => $products,
-            "categories" =>  $category
+            "categories" =>  $category,
+            "stats_shipping_costs" => $stateShippingCosts
         ], "Products fetched successfully");
     }
 }
