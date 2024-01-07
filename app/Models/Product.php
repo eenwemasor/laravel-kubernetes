@@ -14,7 +14,16 @@ class Product extends Model
 
     protected $casts = [
         'settings'  => 'json',
-        'active'    => 'boolean'
+        'active'    => 'boolean',
+        'allow_custom_size' => 'boolean',
+        'allow_custom_quantity' => 'boolean',
+        'discount_percentage' => 'double',
+        'min_width' => 'double',
+        'min_height' =>  'double',
+        'max_width' => 'double',
+        'max_height' =>  'double',
+        'min_quantity' => 'double',
+        'max_quantity' =>  'double'
     ];
 
     protected $appends = [

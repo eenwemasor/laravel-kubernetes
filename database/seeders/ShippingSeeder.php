@@ -17,7 +17,8 @@ class ShippingSeeder extends Seeder
             ShippingCost::create([
                 'slug'          => $key,
                 'name'          => $state['name'],
-                'price'          => $state['shipping_cost'],
+                'price'         => $state['shipping_cost'],
+                'enabled'       => $state['enabled']
             ]);
         });
     }

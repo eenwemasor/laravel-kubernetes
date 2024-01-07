@@ -20,7 +20,7 @@ class ProductSeeder extends Seeder
             $category = ProductCategory::create([
                 'slug'          => $key,
                 'name'          => $categories['name'],
-                'icon'          => $categories['icon'],
+                'icon'          => route('file-assets-download', ['file-path' => $categories['icon']]),
                 'description'   => $categories['description']
             ]);
 
@@ -46,6 +46,10 @@ class ProductSeeder extends Seeder
                     $settings->put('length', $product['length']);
                 }
 
+
+                if(!isset($product['allow-custom-size'])){
+                    dd($product);
+                }
                 Product::create([
                     'category_id'           => $category->id,
                     'name'                  => $product['name'],
@@ -53,7 +57,19 @@ class ProductSeeder extends Seeder
                     'description'           => $product['description'],
                     'short_description'     => $product['short-description'],
                     'unit_price'            => $product['unit-price'],
-                    'settings'              => $settings
+                    'icon'                  => isset($product['icon']) ? route('file-assets-download', ['file-path' => $product['icon']])  : '',
+                    'settings'              => $settings,
+                    'allow_custom_size'     => $product['allow-custom-size'] ?? true, 
+                    'allow_custom_quantity' => $product['allow-custom-quantity'] ?? true, 
+                    'quantity_postfix'      => $product['quantity-postfix'] ?? null, 
+                    'discount_percentage'   => $product['discount-percentage'], 
+                    'min_width'             => $product['min-width'], 
+                    'min_height'            => $product['min-height'], 
+                    'max_width'             => $product['max-width'], 
+                    'max_height'            => $product['max-height'], 
+                    'min_quantity'          => $product['min-quantity'], 
+                    'max_quantity'          => $product['max-quantity'], 
+
                 ]);
             });
         });

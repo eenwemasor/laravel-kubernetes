@@ -9,7 +9,7 @@ use App\Http\Requests\FileUploadRequest;
 use App\Http\Responser;
 use App\Services\FileService;
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\Response;
 class FileController extends Controller
 {
     public $fileService;
@@ -56,5 +56,28 @@ class FileController extends Controller
         $deletedFiles = $this->fileService->delete($fileIds, $folder ?? 'uploads');
 
         return Responser::send(StatusCode::OK, $deletedFiles, "File deleted successfully");
+    }
+
+    /**
+     * @param Request $request
+     * 
+     * @return mixed
+     */
+    public function download(Request $request) {
+        $filepath = $request->get('file-path');
+
+        if(!$filepath){
+            abort(404, 'File not found');
+        }
+        
+        $file = public_path('assets/'.$filepath);
+        // dd($file);
+    
+        if (file_exists($file)) {
+            preg_match('/([^\/]+)$/', $filepath, $matches);
+            return Response::download($file, $matches[1]);
+        } else {
+            abort(404, 'File not found');
+        }
     }
 }

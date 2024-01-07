@@ -20,6 +20,16 @@ return new class extends Migration
             $table->longText('description');
             $table->string('unit_price');
             $table->longText('settings');
+            $table->boolean('allow_custom_size')->nullable();
+            $table->boolean('allow_custom_quantity')->nullable();
+            $table->string('quantity_postfix')->nullable();
+            $table->string('discount_percentage')->nullable();
+            $table->string('min_width')->nullable();
+            $table->string('min_height')->nullable();
+            $table->string('max_width')->nullable();
+            $table->string('max_height')->nullable();
+            $table->string('min_quantity')->nullable();
+            $table->string('max_quantity')->nullable();
             $table->string('icon')->nullable();
             $table->timestamps();
         });

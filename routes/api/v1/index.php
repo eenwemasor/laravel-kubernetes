@@ -39,4 +39,5 @@ Route::group(['prefix' => 'file'], function () {
     Route::get('/', [FileController::class, 'index']);
     Route::post('/upload', [FileController::class, 'upload']);
     Route::post('/delete', [FileController::class, 'delete']);
+    Route::get('/assets/download', [FileController::class, 'download'])->name('file-assets-download');
 });
