@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\API\Auth\AuthController;
+use App\Http\Controllers\API\Checkout\CheckoutController;
 use App\Http\Controllers\API\File\FileController;
 use App\Http\Controllers\API\Product\ProductController;
 use App\Http\Controllers\API\User\UserController;
@@ -40,4 +41,8 @@ Route::group(['prefix' => 'file'], function () {
     Route::post('/upload', [FileController::class, 'upload']);
     Route::post('/delete', [FileController::class, 'delete']);
     Route::get('/assets/download', [FileController::class, 'download'])->name('file-assets-download');
+});
+
+Route::group(['prefix' => 'checkout'], function () {
+    Route::post('/', [CheckoutController::class, 'store']);
 });

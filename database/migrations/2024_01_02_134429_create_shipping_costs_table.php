@@ -16,6 +16,11 @@ return new class extends Migration
             $table->string('slug');
             $table->string('name');
             $table->string('price');
+            $table->string('express_price');
+            $table->string('express_minimum_day');
+            $table->string('express_maximum_day');
+            $table->string('minimum_day');
+            $table->string('maximum_day');
             $table->boolean('enabled');
             $table->timestamps();
         });
