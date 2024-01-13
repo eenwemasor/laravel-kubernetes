@@ -1,5 +1,6 @@
 <?php
 
+use Flutterwave\Flutterwave;
 use Illuminate\Contracts\Http\Kernel;
 use Illuminate\Http\Request;
 
