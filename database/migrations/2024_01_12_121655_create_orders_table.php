@@ -19,7 +19,9 @@ return new class extends Migration
             $table->string('shipping_method');
             $table->boolean('ship_same_as_bill')->default(true);
             $table->boolean('privacy_policy')->default(false);
+            $table->string('tx_id');
             $table->string('tx_ref');
+            $table->string('flw_tx_ref');
             $table->uuid('shipping_info_id');
             $table->uuid('billing_info_id')->nullable();
             $table->timestamps();
