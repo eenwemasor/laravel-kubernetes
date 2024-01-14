@@ -16,15 +16,14 @@ return new class extends Migration
             $table->uuid('product_id');
             $table->uuid('order_id');
             $table->uuid('artwork_id');
-            $table->longText('artwork_description');
-            $table->string('color');
-            $table->longText('sizes');
-            $table->string('length');
-            $table->string('width');
-            $table->string('height');
-            $table->string('quantity');
+            $table->longText('artwork_description')->nullable();
+            $table->string('color')->nullable();
+            $table->text('sizes')->nullable();
+            $table->string('length')->nullable();
+            $table->string('width')->nullable();
+            $table->string('height')->nullable();
+            $table->string('quantity')->nullable();
             $table->timestamps();
-
 
             $table->foreign('order_id')->references('id')->on('orders')->onDelete('cascade');
             $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade');

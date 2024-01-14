@@ -29,6 +29,7 @@ Route::group(['prefix' => 'auth'], function () {
 
 Route::group(['prefix' => 'user', 'middleware' => 'auth:api'], function () {
     Route::get('/me', [UserController::class, 'me']);
+    Route::post('/checkout', [CheckoutController::class, 'store']);
 });
 
 Route::group(['prefix' => 'products'], function () {

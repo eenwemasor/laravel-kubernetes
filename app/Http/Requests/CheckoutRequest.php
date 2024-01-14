@@ -29,7 +29,7 @@ class CheckoutRequest extends FormRequest
             'privacy_policy'                    => ['required', 'boolean'],
             'ship_same_as_bill'                 => ['required', 'boolean'],
             'shipping_method'                   => ['required', 'in:standard,express,local-pickup'],
-            'order_note'                        => ['string'],
+            'note'                              => ['string'],
 
             // shipping details
             'shipping_info'                     => ['required', 'array'],
@@ -38,7 +38,7 @@ class CheckoutRequest extends FormRequest
             'shipping_info.email'               => ['required', 'email'],
             'shipping_info.first_name'          => ['required', 'string'],
             'shipping_info.last_name'           => ['required', 'string'],
-            'shipping_info.order_notes'         => ['string'],
+            'shipping_info.note'                => ['string'],
             'shipping_info.phone_number'        => ['required', 'string'],
             'shipping_info.postal_code'         => ['required', 'string'],
             'shipping_info.state'               => ['required', 'string'],
@@ -90,7 +90,7 @@ class CheckoutRequest extends FormRequest
             'privacy_policy'                    => "privacy policy",
             'ship_same_as_bill'                 => "shipping same as billing",
             'shipping_method'                   => "shipping method",
-            'order_note'                        => "order note",
+            'note'                              => "order note",
 
             // shipping details
             'shipping_info'                     => "shipping",
@@ -99,7 +99,7 @@ class CheckoutRequest extends FormRequest
             'shipping_info.email'               => "shipping email",
             'shipping_info.first_name'          => "shipping first name",
             'shipping_info.last_name'           => "shipping last name",
-            'shipping_info.order_notes'         => "shipping order notes",
+            'shipping_info.note'                => "shipping order note",
             'shipping_info.phone_number'        => "shipping phone number",
             'shipping_info.postal_code'         => "shipping postal code",
             'shipping_info.state'               => "shipping state",
@@ -154,7 +154,7 @@ class CheckoutRequest extends FormRequest
             'ship_same_as_bill'                             => ":attribute is invalid",
             'shipping_method.required'                      => ":attribute is required",
             'shipping_method.in'                            => ":attribute is invalid",
-            'order_note.string'                             => ":attribute is invalid",
+            'note.string'                                   => ":attribute is invalid",
 
             'shipping_info.required'                        => ":attribute is required",
             'shipping_info.array'                           => ":attribute is invalid",

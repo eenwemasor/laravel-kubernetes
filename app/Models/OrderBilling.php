@@ -11,6 +11,9 @@ class OrderBilling extends Model
 {
     use HasFactory, HasUuids;
 
+    protected $casts = [];
+    
+    protected $guarded = [];
 
     /**
      * @return BelongsTo

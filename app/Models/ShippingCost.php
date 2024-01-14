@@ -9,5 +9,6 @@ use Illuminate\Database\Eloquent\Model;
 class ShippingCost extends Model
 {
     use HasFactory, HasUuids;
+    
     protected $guarded = [];
 }

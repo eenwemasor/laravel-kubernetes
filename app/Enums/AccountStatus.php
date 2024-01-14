@@ -2,7 +2,7 @@
 
 namespace App\Enums;
 
-interface AccountStatus
+enum AccountStatus: string
 {
     const ACTIVE = 'active';
     const DELETED = 'deleted';

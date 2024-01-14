@@ -2,7 +2,7 @@
 
 namespace App\Enums;
 
-interface StatusCode
+enum StatusCode: string 
 {
     const OK = 200;
     const DELETED = 200;

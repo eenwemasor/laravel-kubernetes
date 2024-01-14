@@ -6,11 +6,13 @@ use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class ProductFile extends Model
+class PreOrder extends Model
 {
     use HasFactory, HasUuids;
 
-    protected $casts = [];
-    
+    protected $casts = [
+        'data' => 'json'
+    ];
+
     protected $guarded = [];
 }

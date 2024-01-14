@@ -2,7 +2,7 @@
 
 namespace App\Enums;
 
-interface Gender
+enum Gender: string
 {
     const MALE = 'male';
     const FEMALE = 'female';

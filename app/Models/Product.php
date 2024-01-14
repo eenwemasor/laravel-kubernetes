@@ -12,6 +12,8 @@ class Product extends Model
 {
     use HasFactory, HasUuids;
 
+    protected $guarded = [];
+
     protected $casts = [
         'settings'  => 'json',
         'active'    => 'boolean',

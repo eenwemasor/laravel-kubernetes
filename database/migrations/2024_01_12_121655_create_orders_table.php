@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('orders', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->uuid('user_id');
-            $table->longText('notes')->nullable();
+            $table->uuid('user_id')->nullable();
+            $table->string('status');
             $table->float('amount');
             $table->string('shipping_method');
             $table->boolean('ship_same_as_bill')->default(true);
@@ -24,6 +24,7 @@ return new class extends Migration
             $table->string('flw_tx_ref');
             $table->uuid('shipping_info_id');
             $table->uuid('billing_info_id')->nullable();
+            $table->longText('note')->nullable();
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');

@@ -12,6 +12,16 @@ class OrderItem extends Model
 {
     use HasFactory, HasUuids;
 
+    protected $casts = [
+        'sizes'     => 'json',
+        'length'    => 'float',
+        'width'     => 'float',
+        'height'    => 'float',
+        'quantity'  => 'float',
+    ];
+    
+    protected $guarded = [];
+    
     /**
      * @return BelongsTo
      */
@@ -25,7 +35,7 @@ class OrderItem extends Model
      */
     public function product(): HasOne
     {
-        return $this->hasOne(Product::class);
+        return $this->hasOne(Product::class, 'id', 'product_id');
     }
 
     /**
@@ -33,6 +43,6 @@ class OrderItem extends Model
      */
     public function artwork(): HasOne
     {
-        return $this->hasOne(File::class);
+        return $this->hasOne(File::class, 'id', 'artwork_id');
     }
 }
