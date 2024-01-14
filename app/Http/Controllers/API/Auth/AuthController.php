@@ -9,6 +9,7 @@ use App\Http\Requests\LoginWithGoogleRequest;
 use App\Http\Requests\RegisterRequest;
 use App\Http\Responser;
 use App\Models\User;
+use App\Notifications\WelcomeNotification;
 use Laravel\Socialite\Facades\Socialite;
 
 class AuthController extends Controller
@@ -28,6 +29,8 @@ class AuthController extends Controller
         if (!$user) {
             return Responser::send(StatusCode::SERVER_ERROR, [], "Error creating account, please try again later.");
         }
+
+        $user->notify(new WelcomeNotification($user));
 
         $token = $user->createToken($this->tokenName)->accessToken;
 
@@ -83,6 +86,8 @@ class AuthController extends Controller
         }
 
         $token = $user->createToken($this->tokenName)->accessToken;
+
+        $user->notify(new WelcomeNotification($user));
 
         return Responser::send(StatusCode::OK, [
             'user' => $user,

@@ -12,13 +12,17 @@ class WelcomeNotification extends Notification
     use Queueable;
     
     public $user;
+    public $accountType;
+    public $password;
 
     /**
      * Create a new notification instance.
      */
-    public function __construct(User $user)
+    public function __construct(User $user, $accountType =  null, $password = null)
     {
         $this->user = $user;
+        $this->accountType = $accountType;
+        $this->password = $password;
     }
 
     /**
@@ -37,8 +41,12 @@ class WelcomeNotification extends Notification
     public function toMail(object $notifiable): MailMessage
     {
         return (new MailMessage)
-                ->subject("Welcome to " .env('APP_NAME')."! 🎉")
-                ->view('mail.welcome', ['user' => $this->user]);
+            ->subject("Welcome to " .env('APP_NAME')."! 🎉")
+            ->view('mail.welcome', [
+                'user' => $this->user, 
+                'password' => $this->password, 
+                'accountType' => $this->accountType
+            ]);
     }
 
     /**

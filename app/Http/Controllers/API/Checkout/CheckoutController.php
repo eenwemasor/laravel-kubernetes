@@ -25,6 +25,11 @@ class CheckoutController extends Controller
         $this->checkoutRepository = CheckoutRepository::make();
     }
 
+    /**
+     * @param CheckoutRequest $request
+     * 
+     * @return Responser
+     */
     public function store(CheckoutRequest $request)
     {
         $inputs = $request->validated();
@@ -40,20 +45,20 @@ class CheckoutController extends Controller
             $accountType = 'not-logged-but-existing-user';
 
             if(!$user){
+                $password = Str::random(8);
                 $userData = [
                     'name'          => $shippingInfo['first_name'] . ' ' . $shippingInfo['last_name'],
                     'email'         => $shippingInfo['email'],
-                    'password'      =>  Str::random(8)
+                    'password'      => $password
                 ];
                 $user = User::create($userData);
-                $newAccount = 'new-user';
+                $accountType = 'new-user';
+
+                $user->notify(new WelcomeNotification($user, $accountType, $password));
             }
             
         }
 
-        $user->notify(new WelcomeNotification($user));
-        
-        dd($user);
         $shipping = $this->checkoutRepository->saveShippingInfo($inputs['shipping_info'], $user);
 
         if (!$shipping) {
