@@ -25,12 +25,12 @@ class FlutterwaveService
 
     /**
      * @param mixed $transactionId
-     * @param float $amount
+     * @param mixed $amount
      * @param string $txRef
      * 
      * @return stdClass
      */
-    function verifyTransaction($transactionId, float $amount, string $txRef): stdClass
+    public function verifyTransaction($transactionId, $amount, string $txRef): stdClass
     {
         $http = $this->initialization();
         $response = $http->get("transactions/$transactionId/verify");

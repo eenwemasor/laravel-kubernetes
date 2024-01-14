@@ -21,6 +21,6 @@ class CheckoutController extends Controller
         $inputs = $request->validated();
         $txVerification = $this->flwService->verifyTransaction($inputs['tx_id'], $inputs['amount'], $inputs['tx_ref']);
 
-        return Responser::send(StatusCode::OK, $inputs, "Checkout complete");
+        return Responser::send(StatusCode::CREATED, $txVerification, "Checkout complete");
     }
 }
