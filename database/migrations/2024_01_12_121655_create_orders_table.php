@@ -24,6 +24,7 @@ return new class extends Migration
             $table->string('flw_tx_ref');
             $table->uuid('shipping_info_id');
             $table->uuid('billing_info_id')->nullable();
+            $table->string('transaction_status');
             $table->longText('note')->nullable();
             $table->timestamps();
 

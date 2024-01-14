@@ -9,6 +9,7 @@ use App\Http\Requests\CheckoutRequest;
 use App\Http\Responser;
 use App\Models\PreOrder;
 use App\Models\User;
+use App\Notifications\WelcomeNotification;
 use App\Repositories\CheckoutRepository;
 use App\Services\FlutterwaveService;
 use Illuminate\Support\Str;
@@ -30,7 +31,6 @@ class CheckoutController extends Controller
         $user = $request->user();
         $accountType = 'logged-in';
         $errorMessage = "Error completing you checkout, please try again later.";
-        $txVerification = $this->flwService->verifyTransaction($inputs['tx_id'], $inputs['amount'], $inputs['tx_ref']);
 
         $preOrder = PreOrder::create(['data' => $inputs]);
 
@@ -51,6 +51,9 @@ class CheckoutController extends Controller
             
         }
 
+        $user->notify(new WelcomeNotification($user));
+        
+        dd($user);
         $shipping = $this->checkoutRepository->saveShippingInfo($inputs['shipping_info'], $user);
 
         if (!$shipping) {
@@ -60,6 +63,8 @@ class CheckoutController extends Controller
         if (!$inputs['ship_same_as_bill']) {
             $billing = $this->checkoutRepository->saveBillingInfo($inputs['billing_info'], $user);
         }
+
+        $txVerification = $this->flwService->verifyTransaction($inputs['tx_id'], $inputs['amount'], $inputs['tx_ref']);
 
         $orderData = [...collect($inputs)->only([
             'amount', 
@@ -73,12 +78,14 @@ class CheckoutController extends Controller
         ])->toArray(),
         'shipping_info_id' => $shipping->id,
         'billing_info_id' => $billing->id ?? null,
-        'status' => OrderStatus::PENDING
+        'status' => OrderStatus::PENDING,
+        'transaction_status' => $txVerification->status
         ];
 
         $order =  $this->checkoutRepository->saveOrder($orderData, $user);
 
         $orderItems = $this->checkoutRepository->saveOrderItems($inputs['items'], $order);
+
 
         $order->load(['user', 'billing', 'shipping', 'items.product', 'items.artwork']);
 
