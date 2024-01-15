@@ -57,6 +57,7 @@ class CheckoutRequest extends FormRequest
             'items'                             => ['required', 'array', 'min:1'],
             'items.*'                           => ['required', 'array', 'min:1'],
             'items.*.artwork_id'                => ['required', 'string'],
+            'items.*.amount'                    => ['required', 'numeric'],
             'items.*.artwork_description'       => ['string', 'nullable', 'sometimes'],
             'items.*.product_id'                => ['string', 'nullable', 'sometimes'],
             'items.*.length'                    => ['integer', 'nullable', 'sometimes'],

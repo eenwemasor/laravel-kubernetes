@@ -17,6 +17,7 @@ return new class extends Migration
             $table->uuid('order_id');
             $table->uuid('artwork_id');
             $table->longText('artwork_description')->nullable();
+            $table->string('amount');
             $table->string('color')->nullable();
             $table->text('sizes')->nullable();
             $table->string('length')->nullable();

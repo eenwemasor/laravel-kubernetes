@@ -256,6 +256,14 @@
             line-height: 18px;
         }
 
+        .purchase_item_amount{
+            vertical-align: bottom;
+        }
+
+        .purchase_item p{
+            margin-bottom: 0px
+        }
+
         .purchase_heading {
             padding-bottom: 8px;
             border-bottom: 1px solid #EAEAEC;
@@ -461,9 +469,7 @@
                                 <tr>
                                     <td class="content-cell" align="center">
                                         <p class="f-fallback sub align-center">
-                                            {{env('APP_NAME')}}
-                                            <br>8B Celestial close.
-                                            <br>Lagos, Nigeria
+                                            {{env('APP_NAME')}}, 8B Celestial Close, Obawole, Lagos Nigeria
                                         </p>
                                     </td>
                                 </tr>

@@ -9,6 +9,7 @@ use App\Http\Requests\CheckoutRequest;
 use App\Http\Responser;
 use App\Models\PreOrder;
 use App\Models\User;
+use App\Notifications\ReceiptNotification;
 use App\Notifications\WelcomeNotification;
 use App\Repositories\CheckoutRepository;
 use App\Services\FlutterwaveService;
@@ -91,9 +92,10 @@ class CheckoutController extends Controller
 
         $orderItems = $this->checkoutRepository->saveOrderItems($inputs['items'], $order);
 
-
         $order->load(['user', 'billing', 'shipping', 'items.product', 'items.artwork']);
 
+        $user->notify(new ReceiptNotification($user, $order));
+        
         return Responser::send(StatusCode::CREATED, $order, "Checkout complete");
     }
 }

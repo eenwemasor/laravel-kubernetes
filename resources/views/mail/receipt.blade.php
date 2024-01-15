@@ -1,101 +1,109 @@
-@include('layouts.header')
-<!-- Email Body -->
-<tr>
-    <td class="email-body" width="570" cellpadding="0" cellspacing="0">
-      <table class="email-body_inner" align="center" width="570" cellpadding="0" cellspacing="0" role="presentation">
-        <!-- Body content -->
-        <tr>
-          <td class="content-cell">
-            <div class="f-fallback">
-              <h1>Hi //name//,</h1>
-              <p>Thanks for using [Product Name]. This email is the receipt for your purchase. No payment is due.</p>
-              <p>This purchase will appear as “[Credit Card Statement Name]” on your credit card statement for your //credit_card_brand// ending in //credit_card_last_four//. Need to <a href="//billing_url//">update your payment information</a>?</p>
-              <!-- Discount -->
-              <table class="discount" align="center" width="100%" cellpadding="0" cellspacing="0" role="presentation">
+@extends('layouts.mail')
+@section('content')
+    <tr>
+        <td class="email-body" width="570" cellpadding="0" cellspacing="0">
+            <table class="email-body_inner" align="center" width="570" cellpadding="0" cellspacing="0" role="presentation">
+                <!-- Body content -->
                 <tr>
-                  <td align="center">
-                    <h1 class="f-fallback discount_heading">10% off your next purchase!</h1>
-                    <p class="f-fallback discount_body">Thanks for your support! Here's a coupon for 10% off your next purchase if used by //expiration_date//.</p>
-                    <!-- Border based button
- https://litmus.com/blog/a-guide-to-bulletproof-buttons-in-email-design -->
-                    <table width="100%" border="0" cellspacing="0" cellpadding="0" role="presentation">
-                      <tr>
-                        <td align="center">
-                          <a href="http://example.com" class="f-fallback button button--green" target="_blank">Use this discount now...</a>
-                        </td>
-                      </tr>
-                    </table>
-                  </td>
+                    <td class="content-cell">
+                        <div class="f-fallback">
+                            <h1>Hi {{ $user->name}},</h1>
+                            <p>Thank you for using {{ env('APP_NAME') }}.</p>
+                            <p>We want to inform you that your order with reference number #{{ $order->order_id }} has been
+                                received and is currently in the process of being handled.</p>
+                            <table class="purchase" width="100%" cellpadding="0" cellspacing="0" role="presentation">
+                                <tr>
+                                    <td>
+                                        <h3>[Order ID #{{ $order->order_id }}]</h3>
+                                    </td>
+                                    <td>
+                                        <h3 class="align-right">{{ $order->formatted_created_at }}</h3>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2">
+                                        <table class="purchase_content" width="100%" cellpadding="0" cellspacing="0">
+                                            <tr>
+                                                <th width="80%" class="purchase_heading" align="left">
+                                                    <p class="f-fallback">Description</p>
+                                                </th>
+                                                <th width="20%" class="purchase_heading" align="right">
+                                                    <p class="f-fallback">Amount</p>
+                                                </th>
+                                            </tr>
+                                            @foreach ($order->items as $item)
+                                                <tr>
+                                                    <td class="purchase_item " align="left">
+                                                        <p class="f-fallback">
+                                                            <span><strong>Description:</strong> </span>
+                                                            <span>{{ $item->product->name }}</span>
+                                                        </p>
+                                                        @if ($item->width)
+                                                            <p class="f-fallback">
+                                                                <span><strong>Width:</strong> </span>
+                                                                <span>{{ $item->width }}</span>
+                                                            </p>
+                                                        @endif
+
+                                                        @if ($item->color)
+                                                            <p class="f-fallback">
+                                                                <span><strong>Color:</strong> </span>
+                                                                <span style="display:inline-block;background: {{$item->color}}; width: 50px; height: 10px; padding:3px; border-radius: 3px"></span>
+                                                            </p>
+                                                        @endif
+                                                        @if ($item->sizes)
+                                                            <p class="f-fallback">
+                                                                <span><strong>Sizes:</strong> </span>
+                                                                <span> {{ json_encode($item->sizes) }}</span>
+                                                            </p>
+                                                        @endif
+                                                        @if ($item->length)
+                                                            <p class="f-fallback">
+                                                                <span><strong>Length:</strong> </span>
+                                                                <span> {{ $item->length }}</span>
+                                                            </p>
+                                                        @endif
+                                                        @if ($item->height)
+                                                            <p class="f-fallback">
+                                                                <span><strong>Height:</strong></span>
+                                                                <span> {{ $item->height }}</span>
+                                                            </p>
+                                                        @endif
+                                                        @if ($item->quantity)
+                                                            <p class="f-fallback">
+                                                                <span><strong>Quantity:</strong></span>
+                                                                <span> {{ $item->quantity }}</span>
+                                                            </p>
+                                                        @endif
+                                                    </td>
+                                                    <td class="purchase_item purchase_item_amount" align="right">
+                                                        <p class="f-fallback">
+                                                            {{ formattedAmount($item->amount)}}
+                                                    </td>
+                                                </tr>
+                                            @endforeach
+                                        </table>
+                                <tr>
+                                    <td width="80%" class="purchase_footer" valign="middle">
+                                        <p class="f-fallback purchase_total purchase_total--label">Total</p>
+                                    </td>
+                                    <td width="20%" class="purchase_footer" valign="middle">
+                                        <p class="f-fallback purchase_total">{{ formattedAmount($order->amount)}}</p>
+                                    </td>
+                                </tr>
+                    </td>
                 </tr>
-              </table>
-              <table class="purchase" width="100%" cellpadding="0" cellspacing="0" role="presentation">
-                <tr>
-                  <td>
-                    <h3>//receipt_id//</h3></td>
-                  <td>
-                    <h3 class="align-right">{{date}}</h3></td>
-                </tr>
-                <tr>
-                  <td colspan="2">
-                    <table class="purchase_content" width="100%" cellpadding="0" cellspacing="0">
-                      <tr>
-                        <th class="purchase_heading" align="left">
-                          <p class="f-fallback">Description</p>
-                        </th>
-                        <th class="purchase_heading" align="right">
-                          <p class="f-fallback">Amount</p>
-                        </th>
-                      </tr>
-                      //each receipt_details//
-                      <tr>
-                        <td width="80%" class="purchase_item"><span class="f-fallback">{{description}}</span></td>
-                        <td class="align-right" width="20%" class="purchase_item"><span class="f-fallback">{{amount}}</span></td>
-                      </tr>
-                      //each//
-                      <tr>
-                        <td width="80%" class="purchase_footer" valign="middle">
-                          <p class="f-fallback purchase_total purchase_total--label">Total</p>
-                        </td>
-                        <td width="20%" class="purchase_footer" valign="middle">
-                          <p class="f-fallback purchase_total">{{total}}</p>
-                        </td>
-                      </tr>
-                    </table>
-                  </td>
-                </tr>
-              </table>
-              <p>If you have any questions about this receipt, simply reply to this email or reach out to our <a href="{{support_url}}">support team</a> for help.</p>
-              <p>Cheers,
-                <br>The [Product Name] team</p>
-              <!-- Action -->
-              <table class="body-action" align="center" width="100%" cellpadding="0" cellspacing="0" role="presentation">
-                <tr>
-                  <td align="center">
-                    <!-- Border based button
- https://litmus.com/blog/a-guide-to-bulletproof-buttons-in-email-design -->
-                    <table width="100%" border="0" cellspacing="0" cellpadding="0" role="presentation">
-                      <tr>
-                        <td align="center">
-                          <a href="{{action_url}}" class="f-fallback button button--blue" target="_blank">Download as PDF</a>
-                        </td>
-                      </tr>
-                    </table>
-                  </td>
-                </tr>
-              </table>
-              <!-- Sub copy -->
-              <table class="body-sub" role="presentation">
-                <tr>
-                  <td>
-                    <p class="f-fallback sub"><strong>Need a printable copy for your records?</strong> You can <a href="{{action_url}}">download a PDF version</a>.</p>
-                    <p class="f-fallback sub">Moved recently? Have a new credit card? You can easily <a href="{{billing_url}}">update your billing information</a>.</p>
-                  </td>
-                </tr>
-              </table>
+            </table>
+            <p>If you have any questions about this receipt, simply reply to this email or reach out to our
+                <a href="https://www.stickersng.com/support">support team</a> for help.
+            </p>
+            <p>Cheers,
+                <br>The {{ env('APP_NAME') }} team
+            </p>
             </div>
-          </td>
-        </tr>
-      </table>
+        </td>
+    </tr>
+    </table>
     </td>
-  </tr>
-  @include('layouts.footer')
+    </tr>
+@endsection

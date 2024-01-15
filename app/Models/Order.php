@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Observers\OrderObserver;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -16,6 +18,10 @@ class Order extends Model
     protected $casts = [];
     
     protected $guarded = [];
+
+    protected $appends = [
+        'formatted_created_at'
+    ];
 
     /**
      * @return BelongsTo
@@ -47,5 +53,15 @@ class Order extends Model
     public function items(): HasMany
     {
         return $this->hasMany(OrderItem::class);
+    }
+
+    public function getFormattedCreatedAtAttribute(){
+        return Carbon::parse($this->created_at)->toFormattedDateString();
+    }
+
+    protected static function boot()
+    {
+        parent::boot();
+        static::observe(OrderObserver::class);
     }
 }

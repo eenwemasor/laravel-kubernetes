@@ -18,6 +18,7 @@ class OrderItem extends Model
         'width'     => 'float',
         'height'    => 'float',
         'quantity'  => 'float',
+        'amount'  => 'float',
     ];
     
     protected $guarded = [];
