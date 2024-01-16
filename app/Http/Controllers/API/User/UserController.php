@@ -16,6 +16,8 @@ class UserController extends Controller
      */
     function me(Request $request)
     {
-        return Responser::send(StatusCode::OK, $request->user(), "User details fetched successfully");
+        $user = $request->user();
+        $user->load(['shippingAddresses']);
+        return Responser::send(StatusCode::OK, $user, "User details fetched successfully");
     }
 }

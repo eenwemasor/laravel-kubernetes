@@ -14,8 +14,6 @@ use Laravel\Socialite\Facades\Socialite;
 
 class AuthController extends Controller
 {
-    protected $tokenName = "STICKERS_NG_TOKEN";
-
     /**
      * @param RegisterRequest $request
      * 
@@ -30,9 +28,8 @@ class AuthController extends Controller
             return Responser::send(StatusCode::SERVER_ERROR, [], "Error creating account, please try again later.");
         }
 
+        $token = $user->createToken(env('STICKERS_NG_TOKEN'))->accessToken;
         $user->notify(new WelcomeNotification($user));
-
-        $token = $user->createToken($this->tokenName)->accessToken;
 
         return Responser::send(StatusCode::OK, [
             'user' => $user,
@@ -53,7 +50,7 @@ class AuthController extends Controller
         ];
 
         if (auth()->attempt($data)) {
-            $token = auth()->user()->createToken($this->tokenName)->accessToken;
+            $token = auth()->user()->createToken(env('STICKERS_NG_TOKEN'))->accessToken;
 
             return Responser::send(StatusCode::OK, [
                 'user' => auth()->user(),
@@ -85,7 +82,7 @@ class AuthController extends Controller
             ]);
         }
 
-        $token = $user->createToken($this->tokenName)->accessToken;
+        $token = $user->createToken(env('STICKERS_NG_TOKEN'))->accessToken;
 
         $user->notify(new WelcomeNotification($user));
 
