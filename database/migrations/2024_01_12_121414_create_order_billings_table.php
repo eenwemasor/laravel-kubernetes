@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('order_billings', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->uuid('user_id')->nullable();
+            $table->boolean('is_primary');
             $table->string('full_name');
             $table->string('company')->nullable();
             $table->string('phone_number');

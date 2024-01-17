@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('order_shippings', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->uuid('user_id')->nullable();
+            $table->boolean('is_primary');
             $table->string('first_name');
             $table->string('last_name');
             $table->string('email');
