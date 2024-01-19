@@ -42,8 +42,27 @@ class User extends Authenticatable
         'password' => 'hashed',
     ];
 
-    public function shippingAddresses():HasMany
+    /**
+     * @return HasMany
+     */
+    public function shippingAddresses(): HasMany
     {
         return $this->hasMany(OrderShipping::class, 'user_id', 'id');
+    }
+
+    /**
+     * @return HasMany
+     */
+    public function billingAddresses(): HasMany
+    {
+        return $this->hasMany(OrderBilling::class, 'user_id', 'id');
+    }
+
+    /**
+     * @return HasMany
+     */
+    public function orders(): HasMany
+    {
+        return $this->hasMany(Order::class)->latest();
     }
 }

@@ -3,6 +3,7 @@
 use App\Http\Controllers\API\Auth\AuthController;
 use App\Http\Controllers\API\Checkout\CheckoutController;
 use App\Http\Controllers\API\File\FileController;
+use App\Http\Controllers\API\Order\OrderController;
 use App\Http\Controllers\API\Product\ProductController;
 use App\Http\Controllers\API\User\UserController;
 use Illuminate\Support\Facades\Route;
@@ -46,4 +47,9 @@ Route::group(['prefix' => 'file'], function () {
 
 Route::group(['prefix' => 'checkout'], function () {
     Route::post('/', [CheckoutController::class, 'store']);
+});
+
+
+Route::group(['prefix' => 'order', 'middleware' => 'auth:api'], function () {
+    Route::get('/', [OrderController::class, 'index']);
 });

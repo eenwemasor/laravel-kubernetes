@@ -7,3 +7,14 @@ if (!function_exists('formattedAmount')) {
         return  $formatter->formatCurrency($amount,  "NGN");
     }
 }
+
+if (!function_exists('formatSizes')) {
+    function formatSizes($sizes)
+    {
+        return collect($sizes)->map(function ($value, $key) {
+            return "$key: $value";
+        })->implode(', ');
+    }
+}
+
+

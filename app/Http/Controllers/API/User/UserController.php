@@ -17,7 +17,13 @@ class UserController extends Controller
     function me(Request $request)
     {
         $user = $request->user();
-        $user->load(['shippingAddresses']);
+        $user->load([
+            'shippingAddresses.stateData:slug,name',
+            'billingAddresses.stateData:slug,name',
+            'orders' => function ($query) {
+                $query->with(['billing.stateData', 'shipping.stateData', 'items.product', 'items.artwork'])->take(5);
+            }
+        ]);
         return Responser::send(StatusCode::OK, $user, "User details fetched successfully");
     }
 }

@@ -17,6 +17,8 @@ return new class extends Migration
             $table->uuid('user_id')->nullable();
             $table->string('status');
             $table->float('amount');
+            $table->float('shipping_amount');
+            $table->float('discount');
             $table->string('shipping_method');
             $table->boolean('ship_same_as_bill')->default(true);
             $table->boolean('privacy_policy')->default(false);

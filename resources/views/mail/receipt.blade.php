@@ -54,7 +54,7 @@
                                                         @if ($item->sizes)
                                                             <p class="f-fallback">
                                                                 <span><strong>Sizes:</strong> </span>
-                                                                <span> {{ json_encode($item->sizes) }}</span>
+                                                                <span> {{ formatSizes($item->sizes) }}</span>
                                                             </p>
                                                         @endif
                                                         @if ($item->length)
