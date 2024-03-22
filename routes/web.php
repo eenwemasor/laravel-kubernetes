@@ -1,7 +1,5 @@
 <?php
 
-use App\Models\Order;
-use App\Models\User;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,7 +14,5 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    $order = Order::where('order_id', 122)->first();
-    $user = User::first();
-    return view('mail.receipt', compact('user', 'order'));
+    return view('welcome');
 });

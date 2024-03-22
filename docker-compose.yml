@@ -1,0 +1,37 @@
+version: "3.4"
+name: 'stickersng-k8s-blog'
+
+services:
+    db:
+        container_name: 'stickerng-database'
+        image: mysql
+        networks:
+            - stickersng-k8s
+        restart: always
+        volumes:
+            - ./docker-compose/data:/var/lib/mysql
+        ports:
+            - "3307:3306"
+        environment:
+            MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+            MYSQL_USER: ${DB_USERNAME}
+            MYSQL_PASSWORD: ${DB_PASSWORD}
+            MYSQL_ALLOW_EMPTY_PASSWORD: false
+            MYSQL_DATABASE: ${DB_DATABASE}
+    api:
+        container_name: 'stickerng-api'
+        image: stickersng-k8s:v1.0
+        networks:
+            - stickersng-k8s
+        build:
+            context: .
+            dockerfile: ./Dockerfile
+        volumes:
+            - .:/var/www/html
+        ports:
+            - "8000:8000"
+
+networks:
+    stickersng-k8s:
+        name: stickersng-k8s-network
+

@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: stng-k8s-mysql
+  namespace: stickersng
+spec:
+  selector:
+    matchLabels:
+      db: stng-k8s-mysql # has to match .spec.template.metadata.labels
+  serviceName: "stng-k8s-mysql"
+  replicas: 2 # by default is 1
+  template:
+    metadata:
+      labels:
+        db: stng-k8s-mysql # has to match .spec.selector.matchLabels
+    spec:
+      terminationGracePeriodSeconds: 10
+      containers:
+      - name: stng-k8s-mysql
+        image: mysql
+        ports:
+        - containerPort: 3306
+          name: stng-k8s-mysql
+        volumeMounts:
+        - name: www
+          mountPath: /usr/share/data
+  volumeClaimTemplates:
+  - metadata:
+      name: www
+    spec:
+      storageClassName: my-storage-class
+      accessModes:
+      - ReadWriteOnce
+      resources:
+        requests:
+          storage: 1Gi

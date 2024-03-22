@@ -1,0 +1,80 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: stickersng-mysql
+  labels:
+    app: stickersng
+spec:
+  ports:
+  - port: 3306
+  selector:
+    app: stickersng
+    tier: mysql
+  clusterIP: None
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: stickersng-mysql-pv-claim
+  labels:
+    app: stickersng
+spec:
+  accessModes:
+  - ReadWriteOnce
+  resources:
+    requests:
+      storage: 20Gi
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: stickersng-mysql
+  labels:
+    app: stickersng
+spec:
+  selector:
+    matchLabels:
+      app: stickersng
+      tier: mysql
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: stickersng
+        tier: mysql
+    spec:
+      containers:
+      - image: mysql:8.0
+        name: mysql
+        env:
+        - name: MYSQL_ROOT_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: stng-secrets
+              key: DB_PASSWORD
+        - name: MYSQL_DATABASE
+          valueFrom:
+            secretKeyRef:
+              name: stng-secrets
+              key: DB_DATABASE
+        - name: MYSQL_USER
+          valueFrom:
+            secretKeyRef:
+              name: stng-secrets
+              key: DB_USERNAME
+        - name: MYSQL_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: stng-secrets
+              key: DB_PASSWORD
+        ports:
+        - containerPort: 3306
+          name: mysql
+        volumeMounts:
+        - name: mysql-persistent-storage
+          mountPath: /var/lib/mysql
+      volumes:
+      - name: mysql-persistent-storage
+        persistentVolumeClaim:
+          claimName: stickersng-mysql-pv-claim

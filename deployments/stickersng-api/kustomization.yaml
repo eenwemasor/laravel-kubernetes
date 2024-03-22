@@ -1,0 +1,4 @@
+resources:
+- stickersng-envs.yaml
+- mysql-deployment.yaml
+- api-deployment.yaml
